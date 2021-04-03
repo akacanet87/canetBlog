@@ -1,0 +1,234 @@
+@mixin optional-at-root($sel) {
+  @at-root #{if(not &, $sel, selector-append(&, $sel))} {
+    @content;
+  }
+}
+
+@mixin placeholder {
+  @include optional-at-root('::-webkit-input-placeholder') {
+    @content;
+  }
+  @include optional-at-root(':-moz-placeholder') {
+    @content;
+  }
+  @include optional-at-root('::-moz-placeholder') {
+    @content;
+  }
+  @include optional-at-root(':-ms-input-placeholder') {
+    @content;
+  }
+}
+
+.calendarpicker {
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  //background-image: url(~assets/images/icon-calendar.svg);
+  background-position: center left 26px;
+  background-repeat: no-repeat;
+  background-size: auto;
+  position: relative;
+
+  &::after {
+    content: '';
+    width: 10px;
+    height: 6px;
+    position: absolute;
+    margin: auto;
+    top: 0;
+    right: 20px;
+    bottom: 0;
+    //background-image: url(~assets/images/icon-select-arrow-down.svg);
+    background-repeat: no-repeat;
+    background-size: 100%;
+  }
+
+  &:before {
+    display: none !important;
+  }
+
+  & > div {
+    width: 100%;
+    height: 100%;
+
+    & > input {
+      width: 100%;
+      height: 100%;
+      border: none;
+      padding: 0 12px;
+      background-color: transparent !important;
+      cursor: inherit !important;
+      color: inherit;
+      z-index: 1;
+
+      &.disabled {
+        cursor: not-allowed !important;
+      }
+
+      @include placeholder {
+        color: $color-gray;
+      }
+    }
+  }
+
+  .calendar-box {
+    height: auto;
+    padding-bottom: 10px;
+    top: calc( 100% + 2px );
+    left: 0;
+    //border: 1px solid $color-db;
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+
+    //&:nth-child(2) {
+    //  display: block !important;
+    //}
+
+    & > header {
+      width: 100%;
+      height: 100%;
+      padding: 15px 10px;
+      line-height: unset;
+      display: flex;
+      align-items: center;
+      position: relative;
+
+      span {
+        width: 100%;
+        height: 100%;
+
+        &::after {
+          content: '';
+          display: none;
+        }
+        &:hover {
+          //background-color: $color-ef !important;
+        }
+
+        &.next,
+        &.prev {
+          width: 28px;
+          height: 28px;
+          //background: center left 9px / 6px no-repeat url(~assets/images/icon-datepicker-right-arrow.png) !important;
+          text-indent: -999999px;
+        }
+        &.prev {
+          left: 0;
+          transform: rotate(180deg);
+        }
+        &.next {
+          right: 0;
+        }
+
+        &.up {
+          height: 28px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 22px;
+
+          &:hover {
+            background-color: $color-trans;
+          }
+        }
+      }
+    }
+    & > div {
+
+      span {
+
+        &.cell {
+          height: 50px !important;
+          padding-top: 4px !important;
+          position: relative;
+          //color: $color-veltra-black !important;
+          background-color: $color-trans !important;
+          border: none !important;
+
+          &::after {
+            content: '';
+            position: absolute;
+            width: 36px;
+            height: 36px;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+            border-radius: 20px;
+            z-index: -1;
+            border: none !important;
+            background-color: $color-trans !important;
+          }
+
+          &:hover {
+
+            &::after {
+
+            }
+          }
+
+          &:not(.day-header) {
+
+            //font-family: $Roboto;
+
+            & > * {
+              font-family: inherit;
+            }
+          }
+
+          &:not(.day-header):not(.blank):not(.disabled):not(.selected) {
+
+            &::after {
+              //background-color: $color-eff !important;
+            }
+
+            &:hover {
+
+              &::after {
+                //background-color: $color-veltra-orange-50 !important;
+                //border: 1px solid $color-veltra-orange-75;
+              }
+            }
+          }
+
+          &.disabled {
+            opacity: 0.5;
+
+            &::after {
+              background-color: $color-trans !important;
+            }
+          }
+
+          &.selected {
+            //color: $color-veltra-orange !important;
+
+            &::after {
+              background-color: $color-trans !important;
+              //border: 2px solid $color-veltra-orange !important;
+            }
+          }
+
+          &.weekend:not(.selected) {
+
+            &.sat {
+              //color: $color-blue !important;
+            }
+            &.sun {
+              //color: $color-red !important;
+            }
+          }
+
+          &.day-header {
+
+            &:nth-child(1) {
+              //color: $color-red !important;
+            }
+            &:nth-child(7) {
+              //color: $color-blue !important;
+            }
+          }
+        }
+      }
+    }
+  }
+}

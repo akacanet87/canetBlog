@@ -1,0 +1,8 @@
+.aos-init {
+  transition-duration: 0s;
+  transition-delay: 0s;
+
+  &.aos-animate {
+    transition-duration: 1s;
+  }
+}
